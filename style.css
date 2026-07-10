@@ -1,5 +1,5 @@
-body { font-family: sans-serif; text-align: center; background: #ecalyptus.jpg; }
-.page { background: ecalyptus.jpg; }
+body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+.page { background: white; padding: 20px; margin: 20px; border-radius: 10px; }
 .item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
 #cart-footer { position: fixed; bottom: 0; left:0; width: 100%; background: #e67e22; color: white; padding: 15px; }
 #cart-modal { position: fixed; top: 10%; width: 90%; background: white; padding: 20px; border: 2px solid #ccc; }
