@@ -84,50 +84,78 @@ const menuData = {
         { name: "Tiramisu", price: 400 },
         { name: "Crêpe Nutella", price: 400 }
     ]
-};
+let cart = {}; 
 
-// 2. التنقل بين الصفحات
+// 2. التبديل بين الصفحات
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
     document.getElementById(pageId).style.display = 'block';
 }
 
-// 3. إنشاء الأزرار
+// 3. تحديث العداد
+function updateTotal() {
+    let totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+    document.getElementById('total-display').innerText = "سلة الطلبات: " + totalItems + " أصناف";
+}
+
+// 4. إضافة/حذف من الطلب
+function addToOrder(name) {
+    cart[name] = (cart[name] || 0) + 1;
+    updateTotal();
+}
+
+function removeFromOrder(name) {
+    if (cart[name] > 1) {
+        cart[name]--;
+    } else {
+        delete cart[name];
+    }
+    updateTotal();
+    showCart(); // تحديث السلة بعد الحذف
+}
+
+// 5. إنشاء أزرار التصنيفات (مدمج مع المنطق السابق)
 const btnContainer = document.getElementById('category-buttons');
 for (let cat in menuData) {
     let btn = document.createElement('button');
     btn.innerText = cat;
+    btn.className = "category-btn"; // استخدم هذا الكلاس في CSS
     btn.onclick = () => {
+        showPage('page3');
         const container = document.getElementById('category-items');
-        container.innerHTML = menuData[cat].map(item => `
-            <div class="item">
-                <span>${item.name} (${item.price} DA)</span>
-                <button onclick="addToCart('${item.name}', ${item.price})">+</button>
-            </div>
-        `).join('');
+        container.innerHTML = `<h2>${cat}</h2>`;
+        menuData[cat].forEach(item => {
+            container.innerHTML += `
+                <div class="item">
+                    <span>${item.name} (${item.price} DA)</span>
+                    <button onclick="addToOrder('${item.name}')">+</button>
+                </div>`;
+        });
+        container.innerHTML += `<button onclick="showCart()">عرض السلة النهائية</button>`;
     };
     btnContainer.appendChild(btn);
 }
 
-// 4. العمليات الحسابية
-let cart = {};
-function addToCart(name, price) {
-    cart[name] = cart[name] ? { ...cart[name], qty: cart[name].qty + 1 } : { price, qty: 1 };
-    updateTotal();
-}
-
-function updateTotal() {
-    let total = Object.values(cart).reduce((sum, item) => sum + (item.price * item.qty), 0);
-    document.getElementById('total-price').innerText = total;
-    document.getElementById('final-total').innerText = total;
-}
-
-function toggleCart() {
-    let modal = document.getElementById('cart-modal');
-    modal.style.display = (modal.style.display === 'none') ? 'block' : 'none';
+// 6. عرض السلة
+function showCart() {
+    showPage('page3');
+    const container = document.getElementById('category-items');
+    container.innerHTML = `<h2>سلة الطلبات</h2>`;
+    for (let name in cart) {
+        container.innerHTML += `
+            <div class="item">
+                <span>${name}</span>
+                <span>
+                    <button onclick="removeFromOrder('${name}')">-</button>
+                    (${cart[name]})
+                    <button onclick="addToOrder('${name}')">+</button>
+                </span>
+            </div>`;
+    }
+    container.innerHTML += `<button class="send-btn" onclick="sendOrder()">إرسال الطلب النهائي</button>`;
 }
 
 function sendOrder() {
-    document.getElementById('msg').style.display = 'block';
-    document.getElementById('send-btn').style.display = 'none';
+    alert("تم استلام طلبكم! شكراً لاختياركم إستراحة الكاليتوسة.");
 }
+
