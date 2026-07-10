@@ -2,7 +2,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
-    background-image: url('ecalyptus'); /* تأكد من وضع ملف الصورة بنفس اسم ملف المشروع */
+    background-image: url('ecalyptus.jpg'); /* تأكد من وضع ملف الصورة بنفس اسم ملف المشروع */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
