@@ -1,48 +1,6 @@
-/* تعيين صورة الخلفية */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    background-image: url('52967.jpg'); /* تأكد من وضع ملف الصورة بنفس اسم ملف المشروع */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-}
-
-/* خلفية شبه شفافة لعناصر القائمة لتكون النصوص واضحة */
-.page, #login-container {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    margin: 20px auto;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    max-width: 600px;
-}
-
-/* تنسيق الأزرار لتكون جذابة */
-button {
-    background-color: #e67e22;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background-color: #d35400;
-}
-
-.item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
+body { font-family: sans-serif; text-align: center; background: #ecalyptus.jpg; }
+.page { background: ecalyptus.jpg; }
+.item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
+#cart-footer { position: fixed; bottom: 0; left:0; width: 100%; background: #e67e22; color: white; padding: 15px; }
+#cart-modal { position: fixed; top: 10%; width: 90%; background: white; padding: 20px; border: 2px solid #ccc; }
+button { background: #e67e22; color: white; border: none; padding: 10px; margin: 5px; border-radius: 5px; }
