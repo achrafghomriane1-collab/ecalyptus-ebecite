@@ -1,39 +1,36 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إستراحة الكاليتوسة</title>
+    <title>استراحة الكاليتوسة</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="page1" class="page">
-        <h1>مرحباً بكم في إستراحة الكاليتوسة</h1>
-        <button onclick="showPage('page2')">ابدأ الطلب</button>
-    </div>
+    <main id="app">
+        </main>
 
-    <div id="page2" class="page" style="display:none;">
-        <h2>يرجى إدخال رقم الطاولة</h2>
-        <input type="number" id="table-number" placeholder="رقم الطاولة">
-        <br>
-        <button onclick="showPage('page3')">استمرار</button>
-    </div>
-
-    <div id="page3" class="page" style="display:none;">
-        <div id="total-display" onclick="showCart()" style="cursor:pointer; background:#d35400; color:white; padding:10px; border-radius:10px; margin-bottom:15px; font-weight:bold;">
-            سلة الطلبات: 0 أصناف
+    <footer id="cart-footer" class="hidden">
+        <div id="total-container" onclick="showCartModal()">
+            <span>Total:</span>
+            <span id="total-price">0</span> da
         </div>
-        
-        <div id="category-buttons"></div>
-        
-        <div id="category-items"></div>
-        
-        <br>
-        <button onclick="showPage('page1')">العودة للبداية</button>
+    </footer>
+
+    <div id="cart-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Votre Commande</h3>
+                <span class="close-btn" onclick="closeCartModal()">&times;</span>
+            </div>
+            <div id="cart-items-list">
+                </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
 
