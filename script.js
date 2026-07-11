@@ -1,3 +1,4 @@
+// 1. البيانات (قائمة الطعام)
 const menuData = {
     "ENTRÉES FROIDES": [{name:"Salade César",price:700},{name:"Salade Variée",price:600},{name:"Salade au Thon",price:700},{name:"Calamars Frits",price:1500},{name:"Scampi De Crevettes",price:1100}],
     "ENTRÉES CHAUDES": [{name:"Soupe De Poisson",price:600},{name:"Gratin Poulet",price:500},{name:"Gratin Fruit De Mer",price:600},{name:"Omelette Crevettes",price:800},{name:"Beignets De Camembert",price:600}],
@@ -14,34 +15,39 @@ const menuData = {
 let cart = {};
 const app = document.getElementById('app');
 
+// 2. التنقل بين الصفحات
 function showPage(page) {
-    if(page === 'welcome') app.innerHTML = `<div class="page"><h1>Bienvenue à Istirahat El Kalitoussa</h1><button onclick="showPage('table')">Entrer</button></div>`;
-    else if(page === 'table') app.innerHTML = `<div class="page"><h2>Numéro de table</h2><input type="number" id="tableNum"><br><button onclick="showPage('menu')">Continuer</button></div>`;
-    else if(page === 'menu') {
+    if(page === 'welcome') {
+        app.innerHTML = `<div class="page"><h1>Bienvenue à Istirahat El Kalitoussa</h1><button onclick="showPage('table')">Entrer</button></div>`;
+        document.getElementById('cart-footer').classList.add('hidden');
+    } else if(page === 'table') {
+        app.innerHTML = `<div class="page"><h2>Numéro de table</h2><input type="number" id="tableNum" placeholder="Ex: 01"><br><button onclick="showPage('menu')">Continuer</button></div>`;
+    } else if(page === 'menu') {
         app.innerHTML = `<h1>Menu</h1>` + Object.keys(menuData).map(c => `<button onclick="renderCat('${c}')">${c}</button>`).join('');
         document.getElementById('cart-footer').classList.remove('hidden');
     }
 }
 
+// 3. عرض الأطباق داخل كل تصنيف
 function renderCat(cat) {
     app.innerHTML = `<h1>${cat}</h1><button onclick="showPage('menu')">Retour</button>`;
-    menuData[cat].forEach(i => app.innerHTML += `<div class="menu-item"><div>${i.name}<br>${i.price}da</div><div><button onclick="update('${i.name}',${i.price},-1)">-</button><span id="q-${i.name}">0</span><button onclick="update('${i.name}',${i.price},1)">+</button></div></div>`);
+    menuData[cat].forEach(i => {
+        app.innerHTML += `<div class="menu-item">
+            <div>${i.name}<br><b>${i.price} da</b></div>
+            <div>
+                <button onclick="update('${i.name}',${i.price},-1)">-</button>
+                <span id="q-${i.name}">${cart[i.name]?.q || 0}</span>
+                <button onclick="update('${i.name}',${i.price},1)">+</button>
+            </div>
+        </div>`;
+    });
 }
 
+// 4. تحديث السلة (المنطق)
 function update(n, p, c) {
     if(!cart[n]) cart[n] = {q:0, p:p};
     cart[n].q = Math.max(0, cart[n].q + c);
     if(cart[n].q === 0) delete cart[n];
-    document.getElementById(`q-${n}`) ? document.getElementById(`q-${n}`).innerText = cart[n].q : null;
-    let t = Object.values(cart).reduce((s, i) => s + (i.q * i.p), 0);
-    document.getElementById('total-price').innerText = t;
-}
-
-function showCartModal() {
-    document.getElementById('cart-items-list').innerHTML = Object.entries(cart).map(([n, i]) => `<div>${n} (${i.q}) - ${i.q*i.p}da</div>`).join('');
-    document.getElementById('cart-modal').classList.remove('hidden');
-}
-
-function closeCartModal() { document.getElementById('cart-modal').classList.add('hidden'); }
-showPage('welcome');
-
+    
+    // تحديث رقم الطبق في الصفحة الحالية إن وُجد
+    if(document.getElementById(`q-${n}`)) document.getElementById
